@@ -603,7 +603,7 @@
 
 <script>
   const I18N = {
-    tr:{pull:"\"İyileşme, doğru kelimeleri bulmakla başlar — <span>ve bunu kendi dilinizde yapmaya hakkınız var.</span>\"",
+    tr:{formOk:"Teşekkürler, mesajınız ulaştı. En kısa sürede size dönüş yapacağım.",formErr:"Mesaj gönderilemedi. Lütfen doğrudan e-posta ile ulaşın: yukselarslan1071@gmail.com",pull:"\"İyileşme, doğru kelimeleri bulmakla başlar — <span>ve bunu kendi dilinizde yapmaya hakkınız var.</span>\"",
       skip:"İçeriğe geç", brandSub:"Psikolog · Psikoterapist",
       navAbout:"Hakkımda", navMethods:"Yöntemler", navAreas:"Çalışma Alanları", navFaq:"SSS", navContact:"İletişim", navBook:"Randevu Al",
       heroTitle:"Deneyimli bir el, kendi dilinizde.",
@@ -659,7 +659,7 @@
       footNav:"Menü", footLegal:"Yasal", footImpressum:"Impressum", footPrivacy:"Datenschutzerklärung",
       footRights:"Tüm hakları saklıdır.", footNote:"Bu site bir kriz hattı değildir. Acil durumda 112'yi arayın.", expTitle:"Deneyimden", exp1:"Gençlik Merkezi, Almanya — Psikolog", exp2:"Çocuk Koruma Kurumu — Müdür", exp3:"Milli Eğitim Bakanlığı — Psikolojik Danışman", exp4:"TSK Eğitim Komutanlığı — Psikolog", formConsent:"Mesajımın bana dönüş yapılması amacıyla işlenmesini kabul ediyorum."
     },
-    en:{pull:"\"Healing begins with finding the right words — <span>and you have every right to do that in your own language.</span>\"",
+    en:{formOk:"Thank you, your message has been sent. I'll get back to you soon.",formErr:"Your message could not be sent. Please email directly: yukselarslan1071@gmail.com",pull:"\"Healing begins with finding the right words — <span>and you have every right to do that in your own language.</span>\"",
       skip:"Skip to content", brandSub:"Psychologist · Psychotherapist",
       navAbout:"About", navMethods:"Methods", navAreas:"Focus Areas", navFaq:"FAQ", navContact:"Contact", navBook:"Book now",
       heroTitle:"An experienced hand, in your own language.",
@@ -715,7 +715,7 @@
       footNav:"Menu", footLegal:"Legal", footImpressum:"Imprint", footPrivacy:"Privacy Policy",
       footRights:"All rights reserved.", footNote:"This site is not a crisis line. In an emergency call 112.", expTitle:"Experience", exp1:"Youth Centre, Germany — Psychologist", exp2:"Child Protection Institution — Director", exp3:"Ministry of National Education — Counsellor", exp4:"Armed Forces Training Command — Psychologist", formConsent:"I consent to my message being processed so that I can be contacted in reply."
     },
-    de:{pull:"\"Heilung beginnt damit, die richtigen Worte zu finden — <span>und Sie haben jedes Recht, das in Ihrer eigenen Sprache zu tun.</span>\"",
+    de:{formOk:"Vielen Dank, Ihre Nachricht wurde gesendet. Ich melde mich in Kürze bei Ihnen.",formErr:"Ihre Nachricht konnte nicht gesendet werden. Bitte schreiben Sie direkt: yukselarslan1071@gmail.com",pull:"\"Heilung beginnt damit, die richtigen Worte zu finden — <span>und Sie haben jedes Recht, das in Ihrer eigenen Sprache zu tun.</span>\"",
       skip:"Zum Inhalt springen", brandSub:"Psychologe · Psychotherapeut",
       navAbout:"Über mich", navMethods:"Methoden", navAreas:"Themen", navFaq:"FAQ", navContact:"Kontakt", navBook:"Termin anfragen",
       heroTitle:"Eine erfahrene Begleitung — in Ihrer Sprache.",
@@ -805,13 +805,44 @@
     if(matchMedia('(max-width:640px)').matches){ links.style.display='none'; toggle.setAttribute('aria-expanded','false'); }
   }));
 
-  document.getElementById('contactForm').addEventListener('submit',e=>{
-    e.preventDefault(); const f=e.target;
-    if(!f.reportValidity()) return;
-    const s=encodeURIComponent('Web sitesi üzerinden iletişim — '+f.name.value);
-    const b=encodeURIComponent(f.name.value+' ('+f.email.value+')\nDil: '+f.lang.value+'\n\n'+f.message.value);
-    location.href='mailto:yukselarslan1071@gmail.com?subject='+s+'&body='+b;
-  });
+  // === İLETİŞİM FORMU / "BACKEND" AYARI =========================================
+  // Bu site sunucu (PHP) GEREKTİRMEZ. Form mesajını göndermek için ücretsiz Web3Forms
+  // kullanılır (senin "backend"in odur, ama sen sunucu işletmezsin):
+  //   1) https://web3forms.com → e-postanı gir → ücretsiz "Access Key" al.
+  //   2) Anahtarı aşağıdaki tırnakların arasına yapıştır.
+  // Anahtarı BOŞ bırakırsan form otomatik olarak e-posta uygulamasını açar (mailto) — yine çalışır.
+  const FORM_ACCESS_KEY = '';
+
+  (function(){
+    const form=document.getElementById('contactForm');
+    const status=document.createElement('p');
+    status.className='form-status'; status.setAttribute('role','status');
+    status.style.cssText='margin-top:12px;font-size:14px;display:none;';
+    form.appendChild(status);
+    function show(msg,ok){ status.textContent=msg; status.style.color=ok?'var(--primary)':'#c0392b'; status.style.display='block'; }
+    function mailtoSend(f){
+      const s=encodeURIComponent('Web sitesi üzerinden iletişim — '+f.name.value);
+      const b=encodeURIComponent(f.name.value+' ('+f.email.value+')\nDil: '+f.lang.value+'\n\n'+f.message.value);
+      location.href='mailto:yukselarslan1071@gmail.com?subject='+s+'&body='+b;
+    }
+    form.addEventListener('submit',async e=>{
+      e.preventDefault(); const f=e.target;
+      if(!f.reportValidity()) return;
+      if(!FORM_ACCESS_KEY){ mailtoSend(f); return; }
+      const btn=f.querySelector('button[type="submit"]'); const old=btn.textContent; btn.disabled=true;
+      try{
+        const r=await fetch('https://api.web3forms.com/submit',{method:'POST',
+          headers:{'Content-Type':'application/json',Accept:'application/json'},
+          body:JSON.stringify({access_key:FORM_ACCESS_KEY,from_name:f.name.value,
+            subject:'Web sitesi üzerinden iletişim — '+f.name.value,
+            name:f.name.value,email:f.email.value,Sprache:f.lang.value,message:f.message.value})});
+        const j=await r.json();
+        if(j&&j.success){ f.reset(); show(I18N[currentLang].formOk,true); }
+        else { show(I18N[currentLang].formErr,false); }
+      }catch(_){ show(I18N[currentLang].formErr,false); }
+      finally{ btn.disabled=false; btn.textContent=old; }
+    });
+  })();
 
   document.getElementById('year').textContent=new Date().getFullYear();
   setLang(currentLang);
