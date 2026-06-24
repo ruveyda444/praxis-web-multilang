@@ -18,7 +18,7 @@
 `index.html` dosyasına çift tıkla — tarayıcıda açılır. Kurulum gerekmez.
 
 ## 2. VS Code'da açmak
-VS Code'u aç → **File > Open Folder** → bu klasörü (`yuksel-arslan-site`) seç.
+VS Code'u aç → **File > Open Folder** → bu klasörü (`praxis-web-multilang`) seç.
 Canlı önizleme istersen "Live Server" eklentisini kurup `index.html` üzerinde "Go Live" diyebilirsin.
 
 ## 3. GitHub'a atmak (VS Code ile, en kolay yol)
@@ -29,7 +29,7 @@ Canlı önizleme istersen "Live Server" eklentisini kurup `index.html` üzerinde
 
 Komut satırını tercih edersen:
 ```
-cd yuksel-arslan-site
+cd praxis-web-multilang
 git init
 git add .
 git commit -m "İlk sürüm"
