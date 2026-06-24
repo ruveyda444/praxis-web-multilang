@@ -6,11 +6,11 @@
 
 | Dosya | Ne işe yarar |
 |-------|--------------|
-| `index.html` | **Statik sürüm.** Çift tıklayınca tarayıcıda açılır. GitHub Pages'te ücretsiz yayınlanır. Formu, ziyaretçinin e-posta uygulamasını açar. |
-| `index.php` | **Backend dahil sürüm.** Form, e-postayı sunucudan gönderir. Yalnızca PHP destekli hosting'de çalışır. |
+| `index.html` | **Sitenin tamamı** (tek dosya). Çift tıklayınca tarayıcıda açılır; herhangi bir statik hosting'te (GitHub Pages, Netlify, Cloudflare Pages) ücretsiz yayınlanır. |
 | `.gitignore` | Gereksiz dosyaların (ör. `.DS_Store`) GitHub'a gitmesini engeller. |
 
-> İki sürüm de aynı görünür. Fark sadece iletişim formunun nasıl çalıştığıdır.
+> Site saf HTML/CSS/JS — build aracı, framework ya da sunucu gerektirmez. Bu, uzun ömürlü ve az bakım gerektiren bir kurulum demektir.
+> (Daha önce bir `index.php` sürümü vardı; artık gerekli değil çünkü form, sunucusuz Web3Forms ile çalışıyor. Gerekirse git geçmişinden geri getirilebilir.)
 
 ---
 
@@ -48,11 +48,8 @@ Form mesajı **yukselarslan1071@gmail.com**'a ulaşır. İki mod var:
    Sunucu/PHP gerekmez, anahtar dolmaz → **ömürlük, az bakım.**
 2. **Anahtar boşsa (varsayılan):** Form, ziyaretçinin e-posta uygulamasını açar (mailto). Hiçbir şey kırılmaz, ama ekstra adım gerektirir.
 
-> `index.php` (PHP sürümü) artık **gerekli değil.** Yukarıdaki Web3Forms yolu PHP'li hosting ihtiyacını ortadan kaldırır. İstersen PHP'li hosting kullanırsan diye dosya repoda duruyor.
-
 ## 5. Yayınlama (deploy)
-- **GitHub Pages / Netlify / Cloudflare Pages (ücretsiz, statik):** sadece `index.html` yeterli. Web3Forms anahtarı eklenmişse form doğrudan çalışır.
-- **PHP'li hosting (opsiyonel):** `index.php`'yi yükle. Aynı klasörde hem `index.html` hem `index.php` varsa sunucu genelde `index.html`'i önceliklendirir — PHP'yi kullanacaksan `index.html`'i sil/yeniden adlandır.
+- **GitHub Pages / Netlify / Cloudflare Pages (ücretsiz):** sadece `index.html` yeterli. Web3Forms anahtarı eklenmişse form doğrudan çalışır, eklenmemişse mailto ile çalışır. Sunucu/PHP gerekmez.
 
 ---
 
