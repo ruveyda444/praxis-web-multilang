@@ -1,0 +1,4 @@
+# GitHub dil istatistiği: index.php, index.html'in birebir kopyası + küçük
+# bir PHP mail handler'ı içerir. İkisi de sayılınca dil çubuğu yanıltıcı
+# biçimde %50 PHP gösteriyor. Proje aslında bir HTML/CSS/JS web sitesi.
+index.php linguist-detectable=false
