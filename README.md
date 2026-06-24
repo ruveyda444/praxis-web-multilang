@@ -38,17 +38,30 @@ git remote add origin https://github.com/KULLANICI_ADIN/REPO_ADI.git
 git push -u origin main
 ```
 
-## 4. Yayınlama (deploy)
-- **GitHub Pages (ücretsiz, statik):** Repo > Settings > Pages > Branch: `main` seç. Site `index.html`'i kullanır. **PHP burada çalışmaz** — form, e-posta uygulamasını açar.
-- **PHP'li hosting (IONOS, Strato, all-inkl, cPanel...):** `index.php`'yi yükle, form sunucudan e-posta gönderir. Not: Aynı klasörde hem `index.html` hem `index.php` varsa, sunucu genelde `index.html`'i önceliklendirir — PHP'nin çalışması için `index.html`'i sil ya da yeniden adlandır.
+## 4. İletişim formu nasıl çalışır (önemli)
+Form mesajı **yukselarslan1071@gmail.com**'a ulaşır. İki mod var:
+
+1. **Doğrudan gönderim (önerilen, sunucu gerekmez):** `index.html` içinde
+   `const FORM_ACCESS_KEY = '';` satırına ücretsiz bir Web3Forms anahtarı yapıştır:
+   [web3forms.com](https://web3forms.com) → e-postanı gir → ücretsiz "Access Key" al → tırnakların arasına koy.
+   Ziyaretçi formu doldurup gönderince e-posta doğrudan gider, "Teşekkürler" mesajı görünür.
+   Sunucu/PHP gerekmez, anahtar dolmaz → **ömürlük, az bakım.**
+2. **Anahtar boşsa (varsayılan):** Form, ziyaretçinin e-posta uygulamasını açar (mailto). Hiçbir şey kırılmaz, ama ekstra adım gerektirir.
+
+> `index.php` (PHP sürümü) artık **gerekli değil.** Yukarıdaki Web3Forms yolu PHP'li hosting ihtiyacını ortadan kaldırır. İstersen PHP'li hosting kullanırsan diye dosya repoda duruyor.
+
+## 5. Yayınlama (deploy)
+- **GitHub Pages / Netlify / Cloudflare Pages (ücretsiz, statik):** sadece `index.html` yeterli. Web3Forms anahtarı eklenmişse form doğrudan çalışır.
+- **PHP'li hosting (opsiyonel):** `index.php`'yi yükle. Aynı klasörde hem `index.html` hem `index.php` varsa sunucu genelde `index.html`'i önceliklendirir — PHP'yi kullanacaksan `index.html`'i sil/yeniden adlandır.
 
 ---
 
-## Yayından önce doldurulması gerekenler
-- **Impressum** ve **Datenschutzerklärung** (footer'da, Almanya'da zorunlu) — `[...]` yer tutucuları gerçek bilgiyle doldur, hukuki kontrol yaptır.
-- **Telefon** (şu an placeholder).
-- **Ünvan** ("Psychotherapeut" Almanya'da korumalı ünvandır — gerçek statü doğru yazılmalı).
-- **Randevu + DSGVO uyumlu video aracı** "Ücretsiz ön görüşme" butonuna bağlanmalı.
-- `index.php` içindeki alıcı e-posta zaten ayarlı: `yukselarslan1071@gmail.com`.
+## Yayından önce doldurulması gerekenler (yalnızca senin verebileceğin bilgiler)
+- **Telefon** — şu an placeholder (`+49 ...`).
+- **Açık adres** — Impressum ve iletişim bölümü için (Heidelberg + sokak/no).
+- **Ünvan / mesleki statü** — sitede "Psikolog · Psikoterapist" yazıyor. Almanya'da **"Psychotherapeut" korumalı ünvandır**; gerçek statünü (ör. *Heilpraktiker für Psychotherapie* izni var mı, yoksa "psychologische Beratung" mı) doğru yansıtmak gerekir. Uydurulamaz — bir uzmana danış.
+- **Impressum + Datenschutzerklärung** — footer'da hazır şablon var; `[...]` alanlarını gerçek bilgiyle doldur, hukuki kontrol yaptır (Almanya'da yasal zorunlu).
+- **Web3Forms anahtarı** — yukarıdaki forma yapıştırılacak (5 dk, ücretsiz).
+- **Randevu + DSGVO-uyumlu video aracı** (ör. MeetOne/Jitsi) "Ücretsiz ön görüşme" butonuna bağlanacak.
 
 Gizlilik durumu: site hiç çerez/izleyici kullanmaz, fontlar gömülüdür (Google'a bağlanmaz) → çerez banner'ı gerekmez.
