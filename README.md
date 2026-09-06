@@ -48,8 +48,30 @@ Form mesajı **yukselarslan1071@gmail.com**'a ulaşır. İki mod var:
    Sunucu/PHP gerekmez, anahtar dolmaz → **ömürlük, az bakım.**
 2. **Anahtar boşsa (varsayılan):** Form, ziyaretçinin e-posta uygulamasını açar (mailto). Hiçbir şey kırılmaz, ama ekstra adım gerektirir.
 
-## 5. Yayınlama (deploy)
-- **GitHub Pages / Netlify / Cloudflare Pages (ücretsiz):** sadece `index.html` yeterli. Web3Forms anahtarı eklenmişse form doğrudan çalışır, eklenmemişse mailto ile çalışır. Sunucu/PHP gerekmez.
+## 5. Yayınlama (deploy) — karar verilen yol
+
+**Hosting: GitHub Pages.** Repo zaten burada, build yok, SSL ücretsiz, bakım sıfır.
+**Domain: `yukselarslan.de`** (kontrol edildi, müsait). Terapi kişisel güven işi —
+marka ismin kendisi; üç dilde de çalışır, şehir/uzmanlık değişse ayakta kalır.
+
+### Yayına alma (repo public olduktan sonra, tek komut)
+```
+gh api -X POST repos/ruveyda444/praxis-web-multilang/pages \
+  -f 'source[branch]=main' -f 'source[path]=/'
+```
+Adres: `https://ruveyda444.github.io/praxis-web-multilang/`
+(Ücretsiz GitHub hesabında Pages **public** repo gerektirir; repo şu an private.)
+
+### Domain bağlama (domain alındıktan sonra)
+1. Kayıt şirketinden `yukselarslan.de` al (~5–15 €/yıl; INWX, Netcup, Namecheap).
+2. DNS kayıtları (GitHub dokümanından doğrulandı, 2026-09-06):
+   - `A` → `185.199.108.153` · `185.199.109.153` · `185.199.110.153` · `185.199.111.153`
+   - `AAAA` → `2606:50c0:8000::153` · `2606:50c0:8001::153` · `2606:50c0:8002::153` · `2606:50c0:8003::153`
+   - `www` için `CNAME` → `ruveyda444.github.io` (repo adı **eklenmez**)
+3. Repo köküne tek satırlık `CNAME` dosyası: `yukselarslan.de`
+4. `index.html` içindeki 4 adres satırını yeni domain ile güncelle
+   (canonical, og:url, og:image, twitter:image — dosyada yorumla işaretli).
+5. Pages ayarlarında "Enforce HTTPS" işaretle (sertifika birkaç dakikada gelir).
 
 ---
 
